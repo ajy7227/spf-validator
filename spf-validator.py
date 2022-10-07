@@ -1,6 +1,8 @@
 from operator import contains
 import dns.resolver
 
+ips = []
+domains = []
 
 """
 Returns SPF record for a given domain.
@@ -11,10 +13,9 @@ def get_spf_record(domain):
     for i in txt_records:
         if "v=spf1" in str(i):
             return str(i)
-        else:
-            return None
+    return None
 
 if __name__ == "__main__":
     domain = "google.com"
     #domain = input("Enter a domain: ")
-    get_spf_record(domain)
+    print(get_spf_record(domain))
