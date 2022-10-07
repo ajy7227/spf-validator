@@ -1,5 +1,3 @@
-from asyncio import gather
-from operator import contains
 import dns.resolver
 
 ipv4_list = []
@@ -20,6 +18,9 @@ def get_spf_record(domain):
     except:
         pass
 
+"""
+Recursively gathers all domains/IPs from spf record given.
+"""
 def gather_all(spf):
     if spf is None:
         return
@@ -45,11 +46,10 @@ def gather_all(spf):
             ipv6_list.append(i[4:])
         if i.startswith("include:"):
             domain_list.append(i[8:])
-            #print(i[8:])
             gather_all(get_spf_record(i[8:]))
 
+
 if __name__ == "__main__":
-    #domain = "google.com"
     domain = input("Enter a domain: ")
     spf = get_spf_record(domain)
     gather_all(spf)
