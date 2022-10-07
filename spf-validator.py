@@ -2,8 +2,9 @@ from asyncio import gather
 from operator import contains
 import dns.resolver
 
-ips = []
-domains = []
+ipv4_list = []
+ipv6_list = []
+domain_list = []
 
 """
 Returns SPF record for a given domain.
@@ -27,19 +28,23 @@ def gather_all(spf):
         for i in spf:
             if i.startswith("a:"):
                 print(i[2:])
-                domains.append(i[2:])
+                domain_list.append(i[2:])
             if i.startswith("ip4:"):
-                ips.append(i[4:])
+                ipv4_list.append(i[4:])
+            if i.startswith("ip6:"):
+                ipv6_list.append(i[4:])
         return
     spf = spf.split(" ")
     for i in spf:
         if i.startswith("a:"):
             print(i[2:])
-            domains.append(i[2:])
+            domain_list.append(i[2:])
         if i.startswith("ip4:"):
-            ips.append(i[4:])
+            ipv4_list.append(i[4:])
+        if i.startswith("ip6:"):
+            ipv6_list.append(i[4:])
         if i.startswith("include:"):
-            domains.append(i[8:])
+            domain_list.append(i[8:])
             #print(i[8:])
             gather_all(get_spf_record(i[8:]))
 
@@ -48,5 +53,6 @@ if __name__ == "__main__":
     domain = input("Enter a domain: ")
     spf = get_spf_record(domain)
     gather_all(spf)
-    print(domains)
-    print(ips)
+    print("Domains:", *domain_list)
+    print("IPv4:", *ipv4_list)
+    print("IPv6:", *ipv6_list)
