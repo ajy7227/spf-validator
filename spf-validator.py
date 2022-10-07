@@ -15,7 +15,14 @@ def get_spf_record(domain):
             return str(i)
     return None
 
+def gather_all(ospf):
+    ospf = ospf.split(" ")
+    for i in ospf:
+        if i.startswith("include:"):
+            print(i[8:])
+
 if __name__ == "__main__":
-    domain = "google.com"
+    domain = "yeti.com"
     #domain = input("Enter a domain: ")
-    print(get_spf_record(domain))
+    ospf = get_spf_record(domain)
+    gather_all(ospf)
