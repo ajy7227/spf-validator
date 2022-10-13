@@ -24,7 +24,7 @@ Recursively gathers all domains/IPs from spf record given.
 def gather_all(spf):
     if spf is None:
         return
-    if "include:" not in spf and ("a:" in spf or "ip4:" in spf):
+    if "include:" not in spf and ("a:" in spf or "ip4:" in spf or "ipv6:" in spf):
         spf = spf.split(" ")
         for i in spf:
             if i.startswith("a:"):
