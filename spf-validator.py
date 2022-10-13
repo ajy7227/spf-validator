@@ -22,6 +22,8 @@ def get_spf_record(domain):
 
 """
 Recursively gathers all domains/IPs from spf record given.
+Adds domains from "a:" to domains list.
+Adds IPs from "ip4:" and "ip6:" to ipv4 and ipv6 lists.
 """
 def gather_all(spf):
     if spf is None:
